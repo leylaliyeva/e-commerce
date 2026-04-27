@@ -17,7 +17,6 @@ exports.getAllCategories = (req, res) => {
 exports.getCategoryById = (req, res) => {
   const id = req.params.id;
 
-  // ✅ validation: id must be number
   if (isNaN(id)) {
     return res.status(400).json({ message: "Invalid ID" });
   }
@@ -108,11 +107,9 @@ exports.updateCategory = (req, res) => {
   });
 };
 
-// DELETE category
 exports.deleteCategory = (req, res) => {
   const id = req.params.id;
 
-  // ✅ validation: id
   if (isNaN(id)) {
     return res.status(400).json({ message: "Invalid ID" });
   }

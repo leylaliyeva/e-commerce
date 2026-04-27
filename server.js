@@ -1,5 +1,6 @@
 const express = require("express");
 const categoryRoutes = require("./routes/categoryRoutes");
+const authRoutes = require("./routes/authRoutes");
 //const productRoutes = require("./routes/productRoutes");
 
 const app = express();
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/categories", categoryRoutes);
+app.use("/", authRoutes);
 //app.use("/products", productRoutes);
 
 app.listen(PORT, () => {
