@@ -1,4 +1,5 @@
 const db = require("../db");
+const AppError = require("../utils/AppError")
 
 // GET all categories
 exports.getAllCategories = (req, res) => {
@@ -6,19 +7,22 @@ exports.getAllCategories = (req, res) => {
 
   db.query(sql, (err, result) => {
     if (err) {
-      return res.status(500).json({ message: "Error getting categories" });
-    }
+      //return res.status(500).json({ message: "Error getting categories" });
 
+      return next(new AppError("Error getting categories", 500))
+    }
     res.json(result);
   });
 };
 
 // GET category by id
-exports.getCategoryById = (req, res) => {
+exports.getCategoryById = (req, res, next) => {
   const id = req.params.id;
 
   if (isNaN(id)) {
-    return res.status(400).json({ message: "Invalid ID" });
+    return next(new AppError("Invalid ID", 400))
+
+    //return res.status(400).json({ message: "Invalid ID" });
   }
 
   const sql = "SELECT * FROM categories WHERE id = ?";
@@ -37,14 +41,16 @@ exports.getCategoryById = (req, res) => {
 };
 
 // CREATE category
-exports.createCategory = (req, res) => {
+exports.createCategory = (req, res, next) => {
   const { name } = req.body;
 
   // validation 1: required
   if (!name || name.trim() === "") {
-    return res.status(400).json({
-      message: "Name is required"
-    });
+    return next(new AppError("Name is required", 400))
+
+    // return res.status(400).json({
+    //   message: "Name is required"
+    //});
   }
 
   // validation 2: min length
